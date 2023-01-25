@@ -1,4 +1,4 @@
-# Ccological networks
+# Ecological networks
 
 This repo is WIP
 
