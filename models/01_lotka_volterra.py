@@ -19,9 +19,9 @@ t = np.linspace(0, 20, 1000)
 
 # Define the model parameters
 a = 1.0 # growth rate of the prey population
-b = 0.1
-c = 1.5 # growth rate of the predator population
-d = 0.75
+b = 0.3 # prey mortality due predation
+c = 1.0 # growth rate of the predator population (moratility)
+d = 0.1 # Predator growth due predation
 
 # Solve the differential equations
 states = odeint(predator_prey, state0, t)

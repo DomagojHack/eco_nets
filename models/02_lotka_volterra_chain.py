@@ -1,39 +1,43 @@
 import numpy as np
-from scipy.integrate import odeint
+from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
-# Define the model
-def lotka_volterra(state, t):
-    x = state[0] # Plankton population
-    y = state[1] # Krill population
-    z = state[2] # Whale population
-    a = 0.1      # Plankton growth rate
-    b = 0.02     # Krill growth rate
-    c = 0.001    # Whale growth rate
-    d = 0.002    # Plankton death rate
-    e = 0.01     # Krill death rate
-    f = 0.00005  # Whale death rate
-    g = 0.0002   # Plankton loss due to Krill
-    h = 0.00005  # Krill loss due to Whale
-    i = 0.00005  # Plankton gain due to Whale
-    j = 0.0001   # Krill gain due to Whale
-    return [a*x - d*x - g*x*y, b*y*x - e*y - h*y*z, c*z*y - f*z - i*z*x + j*z*y]
+# Define the function for the differential equations
+def lotka_volterra( t, init, alpha, beta, gamma, delta, epsilon, mu):
+    x = init[0]
+    y = init[1]
+    z = init[2]
+    dxdt = alpha*x - beta*x*y
+    dydt = -gamma*y + delta*x*y - epsilon*y*z
+    dzdt = mu*y*z - z
+    return [dxdt, dydt, dzdt]
+
+# Set the parameter values
+alpha = 1.0
+beta = 0.1
+gamma = 1.5
+delta = 0.75
+epsilon = 0.5
+mu = 0.1
 
 # Initial conditions
-init = [50, 10, 1]
+x0 = 10
+y0 = 5
+z0 = 2
 
-# Time points
-t = np.linspace(0, 50, 1000)
+init = [x0, y0, z0]
 
-# Solve the model
-state = odeint(lotka_volterra, init, t)
+# Time points for the solution
+t = np.linspace(0, 15, 1000)
 
-# Plot the results
-plt.figure(figsize=(15,15))
-plt.plot(t, state[:, 0], 'g', label='Plankton')
-plt.plot(t, state[:, 1], 'b', label='Krill')
-plt.plot(t, state[:, 2], 'r', label='Whale')
-plt.legend(loc='best')
+# Solve the differential equations
+sol = solve_ivp(lotka_volterra, (0, 15), init, args=(alpha, beta, gamma, delta, epsilon, mu), t_eval=t)
+
+# Plot the solution
+plt.plot(sol.t, sol.y[0], label='Prey 1')
+plt.plot(sol.t, sol.y[1], label='Predator 1')
+plt.plot(sol.t, sol.y[2], label='Predator 2')
 plt.xlabel('Time')
 plt.ylabel('Population')
+plt.legend()
 plt.show()
