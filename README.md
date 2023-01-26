@@ -1,7 +1,7 @@
 # Ecological networks
 
-This repo is WIP
+Models used in the notebook and python files are only example demonstrations of Lotka-Volterra predator-prey model as examples of species interactions in ecological networks.
 
-It will contain code examples for teaching about ecological networks. The course should start with species interactions in terms of ecological significance. 
+This repo is work in progress.
 
-Currently in this repo only lotka_volterra model examples are present.
+It will contain code examples for teaching about ecological networks.
